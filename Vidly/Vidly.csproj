@@ -192,17 +192,13 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\CustomersController.cs" />
-    <Compile Include="..\..\..\..\..\Documents\MoviesController.cs">
-      <Link>Controllers\Api\MoviesController.cs</Link>
-    </Compile>
+    <Compile Include="Controllers\Api\MoviesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Dtos\CustomerDto.cs" />
-    <Compile Include="..\..\..\..\..\Documents\MovieDto.cs">
-      <Link>Dtos\MovieDto.cs</Link>
-    </Compile>
+    <Compile Include="Dtos\MovieDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
