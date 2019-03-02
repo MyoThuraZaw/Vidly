@@ -20,9 +20,11 @@ namespace Vidly.Controllers.Api
         }
 
         // GET /api/movies
-        public IEnumerable<MovieDto> GetMovies()
+        public IHttpActionResult GetMovies()
         {
-            return _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            var movieDtos = _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+
+            return Ok(movieDtos);
         }
 
         // GET /api/movies/1       
@@ -64,39 +66,46 @@ namespace Vidly.Controllers.Api
 
         // PUT /api/movies/1
         [HttpPut]
-        public void UpdateMovie(int id, MovieDto movieDto)
+        public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
         {
             if (!ModelState.IsValid)
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+//                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
             }
 
             var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == id);
 
             if (movieInDb == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+//                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
 
             Mapper.Map(movieDto, movieInDb);
 
             _context.SaveChanges();
+
+            return Ok();
         }
 
         // DELETE api/movies/1
         [HttpDelete]
-        public void DeleteMovie(int id)
+        public IHttpActionResult DeleteMovie(int id)
         {
             var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
 
             if (movie == null)
             {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+//                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
             }
 
             _context.Movies.Remove(movie);
 
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
