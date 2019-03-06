@@ -12,24 +12,50 @@
 }
 else
 {
-    <table class="table table-bordered table-hover">
+    <table id="customer" class="table table-bordered table-hover">
         <thead>
         <tr>
             <th>Customers</th>
             <th>Discount Rate</th>
+            <th>Delete</th>
+            
         </tr>
         </thead>
         <tbody>
         @foreach (var customer in Model)
         {
             <tr>
-                <td>@Html.ActionLink(@customer.Name, "Edit", new { id = @customer.Id})</td>
+                <td>@Html.ActionLink(@customer.Name, "Edit", new {id = @customer.Id})</td>
                 <td>@customer.MembershipType.DiscountRate%</td>
+                <td>
+                    <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
+                </td>
+
             </tr>
         }
         </tbody>
     </table>
 }
 
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#customer .js-delete").on("click",
+                function() {
+                    var button = $(this);
 
+                    if (confirm("Are you sure you want to delete this customer?")) {
+                        $.ajax({                            
+                            url: "/api/customers/" +button.attr("data-customer-id"),
+                            method: "DELETE",
+                            success: function () {
+                                $(this).parents("tr").remove();
+                            }
+                        });
+                    }
+                });
 
+        });
+    </script>
+}
